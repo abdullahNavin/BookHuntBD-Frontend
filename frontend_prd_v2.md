@@ -43,7 +43,7 @@ The UI must feel snappy — skeleton loaders on every async boundary, optimistic
 |---|---|---|
 | Framework | Next.js 14+ (App Router) | Server components where possible |
 | Language | TypeScript | Strict mode enabled |
-| Styling | Tailwind CSS | Dark mode via `class` strategy |
+| Styling | Tailwind CSS, Shadcn UI | Dark mode via `class` strategy |
 | Server state | TanStack Query v5 | Caching, background refetch, pagination |
 | HTTP client | Axios | Centralised instance with interceptors |
 | Auth | Better Auth (client SDK) | Session management, protected routes |

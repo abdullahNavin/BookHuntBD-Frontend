@@ -2,10 +2,10 @@ export interface WishlistItem {
   id: string;
   title: string;
   author?: string;
-  site: string;
-  price: number;
+  site?: string | null;
+  price?: number | null;
   link: string;
-  image?: string;
+  image?: string | null;
   createdAt?: string;
 }
 

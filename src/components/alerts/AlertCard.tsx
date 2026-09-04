@@ -3,7 +3,7 @@
 import { useDeleteAlert } from "@/hooks/useAlerts";
 import type { PriceAlert } from "@/types/alert";
 import { SiteLogo } from "@/components/shared/SiteLogo";
-import { Trash2, BellRing, ExternalLink, Loader2, CheckCircle2 } from "lucide-react";
+import { Trash2, BellRing, ExternalLink, Loader2 } from "lucide-react";
 
 interface AlertCardProps {
   alert: PriceAlert;
@@ -11,7 +11,7 @@ interface AlertCardProps {
 
 export function AlertCard({ alert }: AlertCardProps) {
   const { mutate: remove, isPending } = useDeleteAlert();
-  const isActive = alert.status === "active";
+  const isActive = alert.isActive && !alert.notifiedAt;
 
   return (
     <article

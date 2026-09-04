@@ -17,12 +17,13 @@ const SITE_COLORS: Record<string, string> = {
 };
 
 interface SiteLogoProps {
-  site: string;
+  site?: string | null;
 }
 
 export function SiteLogo({ site }: SiteLogoProps) {
-  const label = SITE_LABELS[site.toLowerCase()] ?? site;
-  const color = SITE_COLORS[site.toLowerCase()] ?? "var(--color-primary)";
+  const normalizedSite = site?.toLowerCase() ?? "unknown";
+  const label = site ? SITE_LABELS[normalizedSite] ?? site : "Unknown";
+  const color = SITE_COLORS[normalizedSite] ?? "var(--color-primary)";
 
   return (
     <span

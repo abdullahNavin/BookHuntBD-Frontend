@@ -14,7 +14,11 @@ export interface SearchResponse {
   results: BookResult[];
   failed: string[];
   query: string;
-  total?: number;
+  cached: boolean;
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
 }
 
 export interface BookFilters {

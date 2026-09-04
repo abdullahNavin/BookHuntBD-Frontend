@@ -9,7 +9,7 @@ export default function NotFound() {
         404 - Page Not Found
       </h1>
       <p className="text-lg max-w-md mx-auto mb-8" style={{ color: "var(--color-text-secondary)" }}>
-        We couldn't find the page you were looking for. The book might have been moved or the URL is incorrect.
+        We couldn&apos;t find the page you were looking for. The book might have been moved or the URL is incorrect.
       </p>
       <Link
         href="/"

@@ -12,14 +12,14 @@ import type { PriceAlert, AlertPayload } from "@/types/alert";
 export function useAlerts() {
   return useQuery<PriceAlert[]>({
     queryKey: ["alerts"],
-    queryFn: () => api.get<PriceAlert[]>("/alerts").then((r) => r.data),
+    queryFn: () => api.get<PriceAlert[]>("/api/alerts").then((r) => r.data),
   });
 }
 
 export function useCreateAlert() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (alert: AlertPayload) => api.post("/alerts", alert),
+    mutationFn: (alert: AlertPayload) => api.post("/api/alerts", alert),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["alerts"] });
       toast.success("Price alert created");
@@ -31,7 +31,7 @@ export function useCreateAlert() {
 export function useDeleteAlert() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) => api.delete(`/alerts/${id}`),
+    mutationFn: (id: string) => api.delete(`/api/alerts/${id}`),
     onMutate: async (id) => {
       await qc.cancelQueries({ queryKey: ["alerts"] });
       const prev = qc.getQueryData<PriceAlert[]>(["alerts"]);

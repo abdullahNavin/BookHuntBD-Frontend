@@ -1,10 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
 import { Heart, ExternalLink, Bell, ArrowUp, ArrowDown, ChevronsUpDown } from "lucide-react";
 import { SiteLogo } from "@/components/shared/SiteLogo";
-import { PriceBadge } from "@/components/shared/PriceBadge";
 import type { BookResult } from "@/types/book";
 import type { WishlistItem } from "@/types/wishlist";
 
@@ -17,7 +15,7 @@ interface ResultsTableProps {
   onAddAlert?: (book: BookResult) => void;
 }
 
-function SortIcon({ col, active, dir }: { col: string; active: boolean; dir: "asc" | "desc" }) {
+function SortIcon({ active, dir }: { active: boolean; dir: "asc" | "desc" }) {
   if (!active) return <ChevronsUpDown className="w-3 h-3 ml-1 inline opacity-40" />;
   return dir === "asc"
     ? <ArrowUp className="w-3 h-3 ml-1 inline" style={{ color: "var(--color-primary)" }} />
@@ -66,20 +64,20 @@ export function ResultsTable({
           <tr>
             <th className={thClass} style={{ color: "var(--color-text-muted)" }}>#</th>
             <th className={thClass} onClick={() => handleHeaderClick("title")} style={{ color: "var(--color-text-muted)" }}>
-              Title <SortIcon col="title" active={localSort.key === "title"} dir={localSort.dir} />
+              Title <SortIcon active={localSort.key === "title"} dir={localSort.dir} />
             </th>
             <th className={thClass} style={{ color: "var(--color-text-muted)" }}>Author</th>
             <th className={thClass} onClick={() => handleHeaderClick("site")} style={{ color: "var(--color-text-muted)" }}>
-              Site <SortIcon col="site" active={localSort.key === "site"} dir={localSort.dir} />
+              Site <SortIcon active={localSort.key === "site"} dir={localSort.dir} />
             </th>
             <th className={thClass} onClick={() => handleHeaderClick("price")} style={{ color: "var(--color-text-muted)" }}>
-              Price <SortIcon col="price" active={localSort.key === "price"} dir={localSort.dir} />
+              Price <SortIcon active={localSort.key === "price"} dir={localSort.dir} />
             </th>
             <th className={thClass} onClick={() => handleHeaderClick("oldPrice")} style={{ color: "var(--color-text-muted)" }}>
-              Was <SortIcon col="oldPrice" active={localSort.key === "oldPrice"} dir={localSort.dir} />
+              Was <SortIcon active={localSort.key === "oldPrice"} dir={localSort.dir} />
             </th>
             <th className={thClass} onClick={() => handleHeaderClick("discount")} style={{ color: "var(--color-text-muted)" }}>
-              Disc. <SortIcon col="discount" active={localSort.key === "discount"} dir={localSort.dir} />
+              Disc. <SortIcon active={localSort.key === "discount"} dir={localSort.dir} />
             </th>
             <th className={thClass} style={{ color: "var(--color-text-muted)" }}>Actions</th>
           </tr>

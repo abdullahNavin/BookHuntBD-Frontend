@@ -1,10 +1,21 @@
 interface PriceBadgeProps {
-  price: number;
-  oldPrice?: number;
-  discount?: number;
+  price?: number | null;
+  oldPrice?: number | null;
+  discount?: number | null;
 }
 
 export function PriceBadge({ price, oldPrice, discount }: PriceBadgeProps) {
+  if (price == null) {
+    return (
+      <span
+        className="text-sm"
+        style={{ color: "var(--color-text-muted)" }}
+      >
+        Price unavailable
+      </span>
+    );
+  }
+
   return (
     <div className="flex flex-wrap items-center gap-2">
       <span

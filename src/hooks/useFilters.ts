@@ -25,7 +25,9 @@ export function useFilters() {
     } else {
       next.delete(key);
     }
-    next.set("page", "1"); // reset page on filter change
+    if (key !== "page") {
+      next.set("page", "1"); // reset page on filter change
+    }
     router.replace(`?${next.toString()}`);
   };
 

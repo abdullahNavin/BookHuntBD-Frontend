@@ -12,14 +12,14 @@ import type { WishlistItem, WishlistPayload } from "@/types/wishlist";
 export function useWishlist() {
   return useQuery<WishlistItem[]>({
     queryKey: ["wishlist"],
-    queryFn: () => api.get<WishlistItem[]>("/wishlist").then((r) => r.data),
+    queryFn: () => api.get<WishlistItem[]>("/api/wishlist").then((r) => r.data),
   });
 }
 
 export function useAddToWishlist() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (book: WishlistPayload) => api.post("/wishlist", book),
+    mutationFn: (book: WishlistPayload) => api.post("/api/wishlist", book),
     onMutate: async (book) => {
       await qc.cancelQueries({ queryKey: ["wishlist"] });
       const prev = qc.getQueryData<WishlistItem[]>(["wishlist"]);
@@ -41,7 +41,7 @@ export function useAddToWishlist() {
 export function useRemoveFromWishlist() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) => api.delete(`/wishlist/${id}`),
+    mutationFn: (id: string) => api.delete(`/api/wishlist/${id}`),
     onMutate: async (id) => {
       await qc.cancelQueries({ queryKey: ["wishlist"] });
       const prev = qc.getQueryData<WishlistItem[]>(["wishlist"]);

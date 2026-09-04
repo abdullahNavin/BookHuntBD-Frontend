@@ -1,10 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useCreateAlert } from "@/hooks/useAlerts";
 import type { BookResult } from "@/types/book";
 import type { AlertSite } from "@/types/alert";
@@ -42,7 +41,7 @@ export function CreateAlertDialog({ book, open, onOpenChange }: CreateAlertDialo
       });
       onOpenChange(false);
       form.reset();
-    } catch (err) {
+    } catch {
       // Error handled by hook toast
     }
   };

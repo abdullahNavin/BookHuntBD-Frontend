@@ -5,6 +5,7 @@ import { SearchBar } from "@/components/search/SearchBar";
 import { SearchFilters } from "@/components/search/SearchFilters";
 import { ResultsTable } from "@/components/search/ResultsTable";
 import { ResultsGrid } from "@/components/search/ResultsGrid";
+import { Pagination } from "@/components/search/Pagination";
 import { NoResults } from "@/components/search/NoResults";
 import { ErrorMessage } from "@/components/shared/ErrorMessage";
 import { SkeletonCard, SkeletonRow } from "@/components/shared/SkeletonCard";
@@ -90,6 +91,13 @@ function SearchPageContent() {
             />
           )}
 
+          {data && data.failed && data.failed.length > 0 && (
+            <div className="flex items-center gap-2 px-4 py-3 rounded-lg text-sm border mb-4"
+              style={{ backgroundColor: "color-mix(in srgb, var(--color-warning) 10%, transparent)", borderColor: "color-mix(in srgb, var(--color-warning) 30%, transparent)", color: "var(--color-warning)" }}>
+              ⚠️ Results from {data.failed.join(" and ")} are unavailable right now. Showing results from other sites.
+            </div>
+          )}
+
           {data && data.results.length === 0 && (
             <NoResults query={query} />
           )}
@@ -112,6 +120,13 @@ function SearchPageContent() {
                 wishlist={wishlist}
                 onWishlistToggle={handleWishlistToggle}
               />
+
+              {data.totalPages && data.totalPages > 1 && (
+                <Pagination 
+                  currentPage={data.page || 1} 
+                  totalPages={data.totalPages} 
+                />
+              )}
             </div>
           )}
         </div>

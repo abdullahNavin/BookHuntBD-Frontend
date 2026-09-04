@@ -23,7 +23,7 @@ export default function HomePage() {
           className="text-lg sm:text-xl max-w-2xl mx-auto"
           style={{ color: "var(--color-text-secondary)" }}
         >
-          Search once, check everywhere. Rokomari, Dhee Books, Boibazar, Harekrokom, Eboighar, and Baatighar.
+          Search once, check everywhere. Bookshoper, Dhee Books, Boibazar, Harekrokom, Eboighar, and Baatighar.
         </p>
 
         {/* Search Bar */}
@@ -65,7 +65,7 @@ export default function HomePage() {
       <div className="mt-16 text-center space-y-4">
         <p className="text-xs font-medium uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>Supported Stores</p>
         <div className="flex flex-wrap justify-center gap-3 opacity-80 mix-blend-luminosity hover:mix-blend-normal transition-all duration-300">
-          <SiteLogo site="rokomari" />
+          <SiteLogo site="bookshoper" />
           <SiteLogo site="dheebooks" />
           <SiteLogo site="boibazar" />
           <SiteLogo site="harekrokom" />

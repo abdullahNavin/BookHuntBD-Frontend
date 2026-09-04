@@ -209,7 +209,7 @@ types/
 **URL state:** All filter/sort state lives in the URL query string — never in component state. This makes results shareable and browser-navigable.
 
 ```
-/search?query=humayun+ahmed&sort=price_asc&site=rokomari&page=1
+/search?query=humayun+ahmed&sort=price_asc&site=bookshoper&page=1
 ```
 
 **Layout (desktop):**
@@ -227,14 +227,14 @@ types/
 
 **Filter panel (`SearchFilters`):**
 - Sort: Price low→high, Price high→low, Discount %, Site name A→Z
-- Site: Checkbox list of all sites (Rokomari, Dhee Books, Boibazar, Harekrokom, Eboighar, Baatighar)
+- Site: Checkbox list of all sites (Bookshoper, Dhee Books, Boibazar, Harekrokom, Eboighar, Baatighar)
 - "Clear filters" resets to defaults
 
 **Results table (`ResultsTable`) — must-have:**
 
 | # | Title | Author | Site | Price | Was | Discount | Actions |
 |---|---|---|---|---|---|---|---|
-| 1 | Book name | Author | 🏷 Rokomari | ৳ 280 | ৳ 350 | 20% off | Buy · ♡ |
+| 1 | Book name | Author | 🏷 Bookshoper | ৳ 280 | ৳ 350 | 20% off | Buy · ♡ |
 
 - Rows sorted/filtered client-side (data already fetched)
 - Sticky header on scroll
@@ -359,7 +359,7 @@ interface BookCardProps {
 const alertSchema = z.object({
   title:       z.string().min(1, "Required"),
   link:        z.string().url("Must be a valid URL"),
-  site:        z.enum(["rokomari", "dheebooks", "boibazar", "harekrokom", "eboighar", "baatighar"]),
+  site:        z.enum(["bookshoper", "dheebooks", "boibazar", "harekrokom", "eboighar", "baatighar"]),
   targetPrice: z.coerce.number().positive("Must be a positive number"),
 });
 ```

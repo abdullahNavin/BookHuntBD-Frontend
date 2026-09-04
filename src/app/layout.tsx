@@ -23,8 +23,8 @@ export const metadata: Metadata = {
     template: "%s | BookHuntBD",
   },
   description:
-    "Search and compare book prices across Rokomari, Dhee Books, Boibazar, Harekrokom, Eboighar, and Baatighar.",
-  keywords: ["books", "Bangladesh", "price comparison", "Rokomari", "Dhee Books"],
+    "Search and compare book prices across Bookshoper, Dhee Books, Boibazar, Harekrokom, Eboighar, and Baatighar.",
+  keywords: ["books", "Bangladesh", "price comparison", "Bookshoper", "Dhee Books"],
 };
 
 export default function RootLayout({

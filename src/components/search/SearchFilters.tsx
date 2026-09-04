@@ -12,7 +12,7 @@ const SORT_OPTIONS = [
 ];
 
 const SITES = [
-  { value: "rokomari", label: "Rokomari" },
+  { value: "bookshoper", label: "Bookshoper" },
   { value: "dheebooks", label: "Dhee Books" },
   { value: "boibazar", label: "Boibazar" },
   { value: "harekrokom", label: "Harekrokom" },

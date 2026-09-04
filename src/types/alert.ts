@@ -1,5 +1,5 @@
 export type AlertSite =
-  | "rokomari"
+  | "bookshoper"
   | "dheebooks"
   | "boibazar"
   | "harekrokom"

@@ -1,5 +1,5 @@
 const SITE_LABELS: Record<string, string> = {
-  rokomari:   "Rokomari",
+  bookshoper: "Bookshoper",
   dheebooks:  "Dhee Books",
   boibazar:   "Boibazar",
   harekrokom: "Harekrokom",
@@ -8,7 +8,7 @@ const SITE_LABELS: Record<string, string> = {
 };
 
 const SITE_COLORS: Record<string, string> = {
-  rokomari:   "#e11d48",
+  bookshoper: "#e11d48",
   dheebooks:  "#7c3aed",
   boibazar:   "#2563eb",
   harekrokom: "#d97706",

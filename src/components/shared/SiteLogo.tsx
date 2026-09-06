@@ -5,6 +5,9 @@ const SITE_LABELS: Record<string, string> = {
   harekrokom: "Harekrokom",
   eboighar:   "Eboighar",
   baatighar:  "Baatighar",
+  rokomari:   "Rokomari",
+  wafilife:   "Wafilife",
+  prothoma:   "Prothoma",
 };
 
 const SITE_COLORS: Record<string, string> = {
@@ -14,6 +17,9 @@ const SITE_COLORS: Record<string, string> = {
   harekrokom: "#d97706",
   eboighar:   "#059669",
   baatighar:  "#db2777",
+  rokomari:   "#1d4ed8",
+  wafilife:   "#ea580c",
+  prothoma:   "#16a34a",
 };
 
 interface SiteLogoProps {

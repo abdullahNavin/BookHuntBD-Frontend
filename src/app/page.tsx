@@ -23,7 +23,7 @@ export default function HomePage() {
           className="text-lg sm:text-xl max-w-2xl mx-auto"
           style={{ color: "var(--color-text-secondary)" }}
         >
-          Search once, check everywhere. Bookshoper, Dhee Books, Boibazar, Harekrokom, Eboighar, and Baatighar.
+          Search once, check everywhere. Bookshoper, Dhee Books, Boibazar, Harekrokom, Eboighar, Baatighar, Rokomari, Wafilife, and Prothoma.
         </p>
 
         {/* Search Bar */}
@@ -40,7 +40,7 @@ export default function HomePage() {
           <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style={{ backgroundColor: "var(--color-bg-muted)", color: "var(--color-primary)" }}>
             <BookOpen className="w-6 h-6" />
           </div>
-          <h3 className="font-semibold mb-2" style={{ color: "var(--color-text-primary)" }}>6 Bookshops</h3>
+          <h3 className="font-semibold mb-2" style={{ color: "var(--color-text-primary)" }}>9 Bookshops</h3>
           <p className="text-sm" style={{ color: "var(--color-text-muted)" }}>We search the top e-commerce sites in Bangladesh simultaneously.</p>
         </div>
         
@@ -71,6 +71,9 @@ export default function HomePage() {
           <SiteLogo site="harekrokom" />
           <SiteLogo site="eboighar" />
           <SiteLogo site="baatighar" />
+          <SiteLogo site="rokomari" />
+          <SiteLogo site="wafilife" />
+          <SiteLogo site="prothoma" />
         </div>
       </div>
     </div>

@@ -18,6 +18,9 @@ const SITES = [
   { value: "harekrokom", label: "Harekrokom" },
   { value: "eboighar", label: "Eboighar" },
   { value: "baatighar", label: "Baatighar" },
+  { value: "rokomari", label: "Rokomari" },
+  { value: "wafilife", label: "Wafilife" },
+  { value: "prothoma", label: "Prothoma" },
 ];
 
 function FilterPanel({ onClose }: { onClose?: () => void }) {

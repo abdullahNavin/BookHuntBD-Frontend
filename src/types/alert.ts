@@ -4,7 +4,10 @@ export type AlertSite =
   | "boibazar"
   | "harekrokom"
   | "eboighar"
-  | "baatighar";
+  | "baatighar"
+  | "rokomari"
+  | "wafilife"
+  | "prothoma";
 
 export interface PriceAlert {
   id: string;

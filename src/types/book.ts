@@ -8,6 +8,7 @@ export interface BookResult {
   discount?: number;
   image?: string;
   link: string;
+  affiliateLink?: string;
 }
 
 export interface SearchResponse {

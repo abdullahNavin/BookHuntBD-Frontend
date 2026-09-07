@@ -15,6 +15,7 @@ interface BookCardProps {
   discount?: number;
   image?: string;
   link: string;
+  affiliateLink?: string;
   isWishlisted?: boolean;
   onWishlist?: () => void;
   id?: string;
@@ -30,6 +31,7 @@ export function BookCard({
   discount,
   image,
   link,
+  affiliateLink,
   isWishlisted = false,
   onWishlist,
   id,
@@ -79,7 +81,7 @@ export function BookCard({
       {/* Actions */}
       <div className="flex gap-2">
         <a
-          href={link}
+          href={affiliateLink || link}
           target="_blank"
           rel="noopener noreferrer"
           className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-medium transition-opacity hover:opacity-90"

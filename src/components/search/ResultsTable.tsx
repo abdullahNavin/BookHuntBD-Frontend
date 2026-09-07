@@ -149,7 +149,7 @@ export function ResultsTable({
                 <td className={tdClass}>
                   <div className="flex items-center gap-1.5">
                     <a
-                      href={book.link}
+                      href={book.affiliateLink || book.link}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-medium transition-opacity hover:opacity-90"

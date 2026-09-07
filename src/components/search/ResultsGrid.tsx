@@ -28,6 +28,7 @@ export function ResultsGrid({ results, wishlist = [], onWishlistToggle }: Result
           discount={book.discount}
           image={book.image}
           link={book.link}
+          affiliateLink={book.affiliateLink}
           isWishlisted={wishlisted.has(book.link)}
           onWishlist={onWishlistToggle ? () => onWishlistToggle(book) : undefined}
         />

@@ -1,34 +1,77 @@
 @import "tailwindcss";
 
-/* ── Design tokens (PRD §3) ────────────────────────────────── */
+/* Fonts loaded via next/font/google in layout.tsx */
+/* DM Serif Display (display) + Outfit (sans) + JetBrains Mono */
+
+/* ── Design tokens — Premium Modern Literary ───────────────── */
 @theme {
-  /* Background */
-  --color-bg:        #0f0f0f;
-  --color-bg-card:   #1a1a1a;
-  --color-bg-muted:  #242424;
+  /* Background ramp */
+  --color-bg:        #0d0f1a;
+  --color-bg-card:   #151929;
+  --color-bg-muted:  #1d2235;
+  --color-bg-subtle: #232842;
 
   /* Border */
-  --color-border:    #2e2e2e;
+  --color-border:     #252b45;
+  --color-border-lit: #353d60;
 
-  /* Brand */
-  --color-primary:   #4f8ef7;
-  --color-success:   #22c55e;
-  --color-warning:   #f59e0b;
-  --color-danger:    #ef4444;
+  /* Brand — electric indigo */
+  --color-primary:      #6c63ff;
+  --color-primary-dim:  #4f47cc;
+  --color-primary-glow: rgba(108, 99, 255, 0.18);
+  --color-success:      #22c55e;
+  --color-warning:      #f59e0b;
+  --color-danger:       #ef4444;
+  --color-savings:      #10d9a0;
 
-  /* Text */
-  --color-text-primary:   #f5f5f5;
-  --color-text-secondary: #a3a3a3;
-  --color-text-muted:     #6b7280;
+  /* Text ramp */
+  --color-text-primary:   #e8e6f0;
+  --color-text-secondary: #9490b5;
+  --color-text-muted:     #5f5a80;
 
   /* Typography */
-  --font-sans: "Inter", sans-serif;
-  --font-mono: "JetBrains Mono", monospace;
+  --font-display: "DM Serif Display", Georgia, serif;
+  --font-sans:    "Outfit", system-ui, sans-serif;
+  --font-mono:    "JetBrains Mono", monospace;
 
-  /* Radius */
-  --radius-xl: 12px;
-  --radius-lg: 8px;
-  --radius-md: 6px;
+  /* Type scale — 1.250 major third */
+  --step--1: 0.8rem;
+  --step-0:  1rem;
+  --step-1:  1.25rem;
+  --step-2:  1.563rem;
+  --step-3:  1.953rem;
+  --step-4:  2.441rem;
+  --step-5:  3.052rem;
+  --step-6:  3.815rem;
+
+  /* Space scale */
+  --space-3xs: 0.25rem;
+  --space-2xs: 0.5rem;
+  --space-xs:  0.75rem;
+  --space-s:   1rem;
+  --space-m:   1.5rem;
+  --space-l:   2rem;
+  --space-xl:  3rem;
+  --space-2xl: 4.5rem;
+  --space-3xl: 7rem;
+
+  /* Radius — one value: 10px everywhere */
+  --radius-xl:   14px;
+  --radius-lg:   10px;
+  --radius-md:   7px;
+  --radius-sm:   5px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-near: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-far:  0 16px 48px rgba(0, 0, 0, 0.5);
+
+  /* Motion */
+  --dur-fast: 120ms;
+  --dur:      220ms;
+  --dur-slow: 420ms;
+  --ease:     cubic-bezier(0.2, 0, 0, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* ── Base ──────────────────────────────────────────────────── */
@@ -45,9 +88,17 @@ body {
   background-color: var(--color-bg);
   color: var(--color-text-primary);
   font-family: var(--font-sans);
+  font-size: var(--step-0);
+  line-height: 1.6;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Ambient indigo glow from top */
+  background-image: radial-gradient(
+    ellipse 80% 40% at 50% -20%,
+    rgba(108, 99, 255, 0.11) 0%,
+    transparent 70%
+  );
 }
 
 /* ── Focus rings ───────────────────────────────────────────── */
@@ -57,22 +108,12 @@ body {
 }
 
 /* ── Scrollbar ─────────────────────────────────────────────── */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: var(--color-bg-muted);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--color-border);
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-text-muted);
-}
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--color-bg-muted); }
+::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-text-muted); }
 
-/* ── Skeleton pulse animation ──────────────────────────────── */
+/* ── Animations ────────────────────────────────────────────── */
 @keyframes pulse {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0.4; }
@@ -80,3 +121,68 @@ body {
 .animate-pulse {
   animation: pulse 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-7px); }
+}
+.animate-float {
+  animation: float 4s var(--ease-out) infinite;
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up {
+  animation: fade-up 0.55s var(--ease-out) both;
+}
+
+@keyframes price-tick {
+  0%   { transform: translateY(0);   opacity: 1; }
+  40%  { transform: translateY(-8px); opacity: 0; }
+  60%  { transform: translateY(8px);  opacity: 0; }
+  100% { transform: translateY(0);   opacity: 1; }
+}
+.animate-price-tick {
+  animation: price-tick 0.5s var(--ease-out) both;
+}
+
+@keyframes shimmer {
+  from { background-position: -200% center; }
+  to   { background-position: 200% center; }
+}
+
+@keyframes gradient-pulse {
+  0%, 100% { opacity: 0.5; }
+  50%       { opacity: 1; }
+}
+
+/* ── Typography helpers ────────────────────────────────────── */
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+
+/* ── Glass surface ─────────────────────────────────────────── */
+.glass {
+  background: rgba(21, 25, 41, 0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+/* ── Glow search ring ──────────────────────────────────────── */
+.glow-ring:focus-within {
+  box-shadow: 0 0 0 2px var(--color-primary), 0 0 28px var(--color-primary-glow);
+}
+
+/* ── Store badge colors via data attributes ────────────────── */
+[data-store="bookshoper"]  { --store-color: #e11d48; }
+[data-store="dheebooks"]   { --store-color: #7c3aed; }
+[data-store="boibazar"]    { --store-color: #2563eb; }
+[data-store="harekrokom"]  { --store-color: #d97706; }
+[data-store="eboighar"]    { --store-color: #059669; }
+[data-store="baatighar"]   { --store-color: #db2777; }
+[data-store="rokomari"]    { --store-color: #1d4ed8; }
+[data-store="wafilife"]    { --store-color: #ea580c; }
+[data-store="prothoma"]    { --store-color: #16a34a; }

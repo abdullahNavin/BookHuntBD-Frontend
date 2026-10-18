@@ -50,7 +50,7 @@ export default function RegisterPage() {
     setIsGoogleLoading(true);
     await signIn.social({
       provider: "google",
-      callbackURL: "/",
+      callbackURL: window.location.origin,
       fetchOptions: {
         onError: (ctx) => {
           toast.error(ctx.error.message || "Google sign-in failed");

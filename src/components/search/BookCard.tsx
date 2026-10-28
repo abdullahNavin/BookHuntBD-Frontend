@@ -87,12 +87,15 @@ export function BookCard({
           className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-medium transition-opacity hover:opacity-90"
           style={{ backgroundColor: "var(--color-primary)", color: "#fff" }}
         >
-          <ExternalLink className="w-3 h-3" />
+          <ExternalLink className="w-3 h-3" aria-hidden="true" />
           Buy
+          <span className="sr-only">(opens in a new tab)</span>
         </a>
         {onWishlist && (
           <button
+            type="button"
             onClick={onWishlist}
+            aria-pressed={isWishlisted}
             aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
             className="flex items-center justify-center w-9 h-9 rounded-lg border transition-colors hover:opacity-80"
             style={{
@@ -106,6 +109,7 @@ export function BookCard({
             <Heart
               className="w-4 h-4"
               fill={isWishlisted ? "currentColor" : "none"}
+              aria-hidden="true"
             />
           </button>
         )}

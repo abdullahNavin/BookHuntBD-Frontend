@@ -7,7 +7,11 @@ interface NoResultsProps {
 export function NoResults({ query }: NoResultsProps) {
   return (
     <div className="flex flex-col items-center gap-4 py-20 text-center">
-      <SearchX className="w-12 h-12" style={{ color: "var(--color-text-muted)" }} />
+      <SearchX
+        className="w-12 h-12"
+        style={{ color: "var(--color-text-muted)" }}
+        aria-hidden="true"
+      />
       <div>
         <p className="font-medium text-base" style={{ color: "var(--color-text-secondary)" }}>
           No books found{query ? ` for "${query}"` : ""}

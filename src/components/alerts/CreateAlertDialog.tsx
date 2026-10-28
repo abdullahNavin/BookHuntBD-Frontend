@@ -51,7 +51,7 @@ export function CreateAlertDialog({ book, open, onOpenChange }: CreateAlertDialo
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Bell className="w-5 h-5" style={{ color: "var(--color-primary)" }} />
+            <Bell className="w-5 h-5" aria-hidden="true" style={{ color: "var(--color-primary)" }} />
             Create Price Alert
           </DialogTitle>
         </DialogHeader>
@@ -75,6 +75,8 @@ export function CreateAlertDialog({ book, open, onOpenChange }: CreateAlertDialo
                 id="targetPrice"
                 type="number"
                 {...form.register("targetPrice", { valueAsNumber: true })}
+                aria-invalid={form.formState.errors.targetPrice ? true : undefined}
+                aria-describedby={form.formState.errors.targetPrice ? "targetPrice-error" : undefined}
                 className="w-full px-3 py-2 rounded-lg text-sm border focus:ring-2 focus:ring-opacity-50 transition-shadow outline-none"
                 style={{
                   backgroundColor: "var(--color-bg-muted)",
@@ -86,7 +88,7 @@ export function CreateAlertDialog({ book, open, onOpenChange }: CreateAlertDialo
                 onBlur={(e) => (e.currentTarget.style.boxShadow = "none")}
               />
               {form.formState.errors.targetPrice && (
-                <p className="text-xs" style={{ color: "var(--color-danger)" }}>
+                <p id="targetPrice-error" className="text-xs" style={{ color: "var(--color-danger)" }}>
                   {form.formState.errors.targetPrice.message}
                 </p>
               )}
@@ -98,7 +100,7 @@ export function CreateAlertDialog({ book, open, onOpenChange }: CreateAlertDialo
               className="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium transition-opacity hover:opacity-90 disabled:opacity-50"
               style={{ backgroundColor: "var(--color-primary)", color: "#fff" }}
             >
-              {isPending && <Loader2 className="w-4 h-4 animate-spin" />}
+              {isPending && <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />}
               Save Alert
             </button>
           </form>

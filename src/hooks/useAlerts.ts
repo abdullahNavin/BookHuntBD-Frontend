@@ -7,12 +7,15 @@ import {
 } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { api } from "@/lib/axios";
+import { useSession } from "@/lib/auth";
 import type { PriceAlert, AlertPayload } from "@/types/alert";
 
 export function useAlerts() {
+  const { data: session, isPending } = useSession();
   return useQuery<PriceAlert[]>({
     queryKey: ["alerts"],
     queryFn: () => api.get<PriceAlert[]>("/api/alerts").then((r) => r.data),
+    enabled: !isPending && !!session,
   });
 }
 

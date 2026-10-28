@@ -18,7 +18,7 @@ export default function Error({
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-140px)] px-4 text-center">
       <div className="w-16 h-16 rounded-full flex items-center justify-center mb-6" style={{ backgroundColor: "color-mix(in srgb, var(--color-danger) 10%, transparent)" }}>
-        <AlertTriangle className="w-8 h-8" style={{ color: "var(--color-danger)" }} />
+        <AlertTriangle className="w-8 h-8" aria-hidden="true" style={{ color: "var(--color-danger)" }} />
       </div>
       
       <h1 className="text-2xl font-bold mb-2" style={{ color: "var(--color-text-primary)" }}>
@@ -30,6 +30,7 @@ export default function Error({
       </p>
       
       <button
+        type="button"
         onClick={() => reset()}
         className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-medium transition-colors hover:opacity-80 border"
         style={{
@@ -38,7 +39,7 @@ export default function Error({
           color: "var(--color-text-primary)",
         }}
       >
-        <RefreshCw className="w-4 h-4" />
+        <RefreshCw className="w-4 h-4" aria-hidden="true" />
         Try again
       </button>
     </div>

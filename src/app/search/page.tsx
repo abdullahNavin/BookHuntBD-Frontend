@@ -113,6 +113,15 @@ function SearchPageContent() {
                 wishlist={wishlist}
                 onWishlistToggle={handleWishlistToggle}
                 onAddAlert={handleAddAlert}
+                initialSort={
+                  filters.sort === "price_desc"
+                    ? { key: "price", dir: "desc" }
+                    : filters.sort === "discount_desc"
+                      ? { key: "discount", dir: "desc" }
+                      : filters.sort === "site_asc"
+                        ? { key: "site", dir: "asc" }
+                        : { key: "price", dir: "asc" }
+                }
               />
               
               <ResultsGrid

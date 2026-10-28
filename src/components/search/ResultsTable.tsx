@@ -13,6 +13,7 @@ interface ResultsTableProps {
   wishlist?: WishlistItem[];
   onWishlistToggle?: (book: BookResult) => void;
   onAddAlert?: (book: BookResult) => void;
+  initialSort?: { key: SortKey; dir: "asc" | "desc" };
 }
 
 function SortIcon({ active, dir }: { active: boolean; dir: "asc" | "desc" }) {
@@ -27,11 +28,21 @@ export function ResultsTable({
   wishlist = [],
   onWishlistToggle,
   onAddAlert,
+  initialSort,
 }: ResultsTableProps) {
-  const [localSort, setLocalSort] = useState<{ key: SortKey; dir: "asc" | "desc" }>({
-    key: "price",
-    dir: "asc",
-  });
+  const [localSort, setLocalSort] = useState<{ key: SortKey; dir: "asc" | "desc" }>(
+    initialSort ?? { key: "price", dir: "asc" }
+  );
+
+  const [prevInitialSort, setPrevInitialSort] = useState(initialSort);
+  if (
+    initialSort &&
+    (initialSort.key !== prevInitialSort?.key ||
+      initialSort.dir !== prevInitialSort?.dir)
+  ) {
+    setPrevInitialSort(initialSort);
+    setLocalSort(initialSort);
+  }
 
   const wishlisted = new Set(wishlist.map((w) => w.link));
 
@@ -55,31 +66,48 @@ export function ResultsTable({
   });
 
   const thClass = "px-4 py-3 text-left text-xs font-medium uppercase tracking-wider select-none cursor-pointer transition-colors hover:opacity-80 whitespace-nowrap";
+  const thStaticClass = "px-4 py-3 text-left text-xs font-medium uppercase tracking-wider select-none whitespace-nowrap";
   const tdClass = "px-4 py-3 text-sm";
+
+  const sortProps = (key: SortKey) => ({
+    scope: "col" as const,
+    "aria-sort": (localSort.key === key
+      ? localSort.dir === "asc"
+        ? "ascending"
+        : "descending"
+      : "none") as "ascending" | "descending" | "none",
+    tabIndex: 0,
+    onKeyDown: (e: React.KeyboardEvent<HTMLTableCellElement>) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        handleHeaderClick(key);
+      }
+    },
+  });
 
   return (
     <div className="hidden md:block w-full overflow-auto rounded-xl border" style={{ borderColor: "var(--color-border)" }}>
       <table className="w-full border-collapse" style={{ backgroundColor: "var(--color-bg-card)" }}>
         <thead style={{ borderBottom: `1px solid var(--color-border)` }}>
           <tr>
-            <th className={thClass} style={{ color: "var(--color-text-muted)" }}>#</th>
-            <th className={thClass} onClick={() => handleHeaderClick("title")} style={{ color: "var(--color-text-muted)" }}>
+            <th scope="col" className={thStaticClass} style={{ color: "var(--color-text-muted)" }}>#</th>
+            <th {...sortProps("title")} className={thClass} onClick={() => handleHeaderClick("title")} style={{ color: "var(--color-text-muted)" }}>
               Title <SortIcon active={localSort.key === "title"} dir={localSort.dir} />
             </th>
-            <th className={thClass} style={{ color: "var(--color-text-muted)" }}>Author</th>
-            <th className={thClass} onClick={() => handleHeaderClick("site")} style={{ color: "var(--color-text-muted)" }}>
+            <th scope="col" className={thStaticClass} style={{ color: "var(--color-text-muted)" }}>Author</th>
+            <th {...sortProps("site")} className={thClass} onClick={() => handleHeaderClick("site")} style={{ color: "var(--color-text-muted)" }}>
               Site <SortIcon active={localSort.key === "site"} dir={localSort.dir} />
             </th>
-            <th className={thClass} onClick={() => handleHeaderClick("price")} style={{ color: "var(--color-text-muted)" }}>
+            <th {...sortProps("price")} className={thClass} onClick={() => handleHeaderClick("price")} style={{ color: "var(--color-text-muted)" }}>
               Price <SortIcon active={localSort.key === "price"} dir={localSort.dir} />
             </th>
-            <th className={thClass} onClick={() => handleHeaderClick("oldPrice")} style={{ color: "var(--color-text-muted)" }}>
+            <th {...sortProps("oldPrice")} className={thClass} onClick={() => handleHeaderClick("oldPrice")} style={{ color: "var(--color-text-muted)" }}>
               Was <SortIcon active={localSort.key === "oldPrice"} dir={localSort.dir} />
             </th>
-            <th className={thClass} onClick={() => handleHeaderClick("discount")} style={{ color: "var(--color-text-muted)" }}>
+            <th {...sortProps("discount")} className={thClass} onClick={() => handleHeaderClick("discount")} style={{ color: "var(--color-text-muted)" }}>
               Disc. <SortIcon active={localSort.key === "discount"} dir={localSort.dir} />
             </th>
-            <th className={thClass} style={{ color: "var(--color-text-muted)" }}>Actions</th>
+            <th scope="col" className={thStaticClass} style={{ color: "var(--color-text-muted)" }}>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -155,11 +183,12 @@ export function ResultsTable({
                       className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-medium transition-opacity hover:opacity-90"
                       style={{ backgroundColor: "var(--color-primary)", color: "#fff" }}
                     >
-                      <ExternalLink className="w-3 h-3" />
+                      <ExternalLink className="w-3 h-3" aria-hidden="true" />
                       Buy
                     </a>
                     {onWishlistToggle && (
                       <button
+                        type="button"
                         onClick={() => onWishlistToggle(book)}
                         aria-label={isWish ? "Remove from wishlist" : "Add to wishlist"}
                         className="p-1.5 rounded-md transition-colors"
@@ -175,12 +204,13 @@ export function ResultsTable({
                     )}
                     {onAddAlert && (
                       <button
+                        type="button"
                         onClick={() => onAddAlert(book)}
                         aria-label="Set price alert"
                         className="p-1.5 rounded-md transition-colors hover:opacity-80"
                         style={{ color: "var(--color-text-muted)" }}
                       >
-                        <Bell className="w-4 h-4" />
+                        <Bell className="w-4 h-4" aria-hidden="true" />
                       </button>
                     )}
                   </div>

@@ -35,9 +35,9 @@ export function SiteLogo({ site }: SiteLogoProps) {
     <span
       className="inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full"
       style={{
-        backgroundColor: `${color}22`,
+        backgroundColor: `color-mix(in srgb, ${color} 13%, transparent)`,
         color,
-        border: `1px solid ${color}44`,
+        border: `1px solid color-mix(in srgb, ${color} 27%, transparent)`,
       }}
     >
       {label}

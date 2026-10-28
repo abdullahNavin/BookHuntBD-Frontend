@@ -7,12 +7,15 @@ import {
 } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { api } from "@/lib/axios";
+import { useSession } from "@/lib/auth";
 import type { WishlistItem, WishlistPayload } from "@/types/wishlist";
 
 export function useWishlist() {
+  const { data: session, isPending } = useSession();
   return useQuery<WishlistItem[]>({
     queryKey: ["wishlist"],
     queryFn: () => api.get<WishlistItem[]>("/api/wishlist").then((r) => r.data),
+    enabled: !isPending && !!session,
   });
 }
 

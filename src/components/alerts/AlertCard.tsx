@@ -22,7 +22,7 @@ export function AlertCard({ alert }: AlertCardProps) {
       }}
     >
       {/* Background icon decoration */}
-      <div className="absolute -right-4 -top-4 opacity-5 pointer-events-none">
+      <div className="absolute -right-4 -top-4 opacity-5 pointer-events-none" aria-hidden="true">
         <BellRing className="w-32 h-32" />
       </div>
 
@@ -51,13 +51,14 @@ export function AlertCard({ alert }: AlertCardProps) {
         </div>
 
         <button
+          type="button"
           onClick={() => remove(alert.id)}
           disabled={isPending}
-          aria-label="Delete alert"
+          aria-label={`Delete alert for ${alert.title}`}
           className="shrink-0 p-2 rounded-lg transition-colors hover:bg-black/20"
           style={{ color: "var(--color-danger)" }}
         >
-          {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+          {isPending ? <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" /> : <Trash2 className="w-4 h-4" aria-hidden="true" />}
         </button>
       </div>
 
@@ -82,8 +83,9 @@ export function AlertCard({ alert }: AlertCardProps) {
             backgroundColor: "var(--color-bg-muted)",
           }}
         >
-          <ExternalLink className="w-3.5 h-3.5" />
+          <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
           Visit Product
+          <span className="sr-only">(opens in a new tab)</span>
         </a>
       </div>
     </article>

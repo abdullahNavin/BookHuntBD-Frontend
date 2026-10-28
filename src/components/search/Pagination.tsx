@@ -34,20 +34,24 @@ export function Pagination({ currentPage, totalPages }: PaginationProps) {
 
       <div className="flex items-center gap-2">
         <button
+          type="button"
           onClick={handlePrev}
           disabled={currentPage <= 1}
-          className="p-2 rounded-lg border flex items-center justify-center transition-colors hover:bg-black/10 disabled:opacity-40"
+          aria-label="Previous page"
+          className="p-2 rounded-lg border flex items-center justify-center transition-colors hover:bg-white/10 disabled:opacity-40"
           style={{ borderColor: "var(--color-border)", color: "var(--color-text-primary)", backgroundColor: "var(--color-bg-card)" }}
         >
-          <ChevronLeft className="w-5 h-5" />
+          <ChevronLeft className="w-5 h-5" aria-hidden="true" />
         </button>
         <button
+          type="button"
           onClick={handleNext}
           disabled={currentPage >= totalPages}
-          className="p-2 rounded-lg border flex items-center justify-center transition-colors hover:bg-black/10 disabled:opacity-40"
+          aria-label="Next page"
+          className="p-2 rounded-lg border flex items-center justify-center transition-colors hover:bg-white/10 disabled:opacity-40"
           style={{ borderColor: "var(--color-border)", color: "var(--color-text-primary)", backgroundColor: "var(--color-bg-card)" }}
         >
-          <ChevronRight className="w-5 h-5" />
+          <ChevronRight className="w-5 h-5" aria-hidden="true" />
         </button>
       </div>
     </div>

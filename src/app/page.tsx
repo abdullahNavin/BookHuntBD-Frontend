@@ -9,7 +9,7 @@ export default function HomePage() {
       {/* Hero Section */}
       <div className="w-full max-w-3xl text-center space-y-6 mb-12">
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4 border border-primary/20" style={{ color: "var(--color-primary)", backgroundColor: "color-mix(in srgb, var(--color-primary) 10%, transparent)", borderColor: "color-mix(in srgb, var(--color-primary) 20%, transparent)" }}>
-          <Zap className="w-4 h-4 fill-current" />
+          <Zap className="w-4 h-4 fill-current" aria-hidden="true" />
           The fastest way to find books in BD
         </div>
         <h1
@@ -38,7 +38,7 @@ export default function HomePage() {
       <div className="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-3 gap-6 mt-12">
         <div className="flex flex-col items-center text-center p-6 rounded-2xl border" style={{ backgroundColor: "var(--color-bg-card)", borderColor: "var(--color-border)" }}>
           <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style={{ backgroundColor: "var(--color-bg-muted)", color: "var(--color-primary)" }}>
-            <BookOpen className="w-6 h-6" />
+            <BookOpen className="w-6 h-6" aria-hidden="true" />
           </div>
           <h3 className="font-semibold mb-2" style={{ color: "var(--color-text-primary)" }}>9 Bookshops</h3>
           <p className="text-sm" style={{ color: "var(--color-text-muted)" }}>We search the top e-commerce sites in Bangladesh simultaneously.</p>
@@ -46,7 +46,7 @@ export default function HomePage() {
         
         <div className="flex flex-col items-center text-center p-6 rounded-2xl border" style={{ backgroundColor: "var(--color-bg-card)", borderColor: "var(--color-border)" }}>
           <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style={{ backgroundColor: "color-mix(in srgb, var(--color-danger) 10%, transparent)", color: "var(--color-danger)" }}>
-            <Heart className="w-6 h-6" />
+            <Heart className="w-6 h-6" aria-hidden="true" />
           </div>
           <h3 className="font-semibold mb-2" style={{ color: "var(--color-text-primary)" }}>Wishlist</h3>
           <p className="text-sm" style={{ color: "var(--color-text-muted)" }}>Save your favorite books to buy them later with one click.</p>
@@ -54,7 +54,7 @@ export default function HomePage() {
 
         <div className="flex flex-col items-center text-center p-6 rounded-2xl border" style={{ backgroundColor: "var(--color-bg-card)", borderColor: "var(--color-border)" }}>
           <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style={{ backgroundColor: "color-mix(in srgb, var(--color-warning) 10%, transparent)", color: "var(--color-warning)" }}>
-            <Bell className="w-6 h-6" />
+            <Bell className="w-6 h-6" aria-hidden="true" />
           </div>
           <h3 className="font-semibold mb-2" style={{ color: "var(--color-text-primary)" }}>Price Alerts</h3>
           <p className="text-sm" style={{ color: "var(--color-text-muted)" }}>Get notified when a book drops below your target price.</p>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -21,6 +21,7 @@ type RegisterFormValues = z.infer<typeof registerSchema>;
 export default function RegisterPage() {
   const router = useRouter();
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const googlePendingRef = useRef(false);
 
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
@@ -47,17 +48,25 @@ export default function RegisterPage() {
   };
 
   const handleGoogleSignIn = async () => {
+    if (googlePendingRef.current) return;
+    googlePendingRef.current = true;
     setIsGoogleLoading(true);
-    await signIn.social({
-      provider: "google",
-      callbackURL: window.location.origin,
-      fetchOptions: {
-        onError: (ctx) => {
-          toast.error(ctx.error.message || "Google sign-in failed");
-          setIsGoogleLoading(false);
+    try {
+      await signIn.social({
+        provider: "google",
+        callbackURL: window.location.origin,
+        fetchOptions: {
+          onError: (ctx) => {
+            toast.error(ctx.error.message || "Google sign-in failed");
+          },
         },
-      },
-    });
+      });
+    } catch {
+      toast.error("Google sign-in failed");
+    } finally {
+      googlePendingRef.current = false;
+      setIsGoogleLoading(false);
+    }
   };
 
   return (
@@ -67,7 +76,7 @@ export default function RegisterPage() {
         style={{ backgroundColor: "var(--color-bg-card)", borderColor: "var(--color-border)" }}
       >
         <div className="flex flex-col items-center mb-8">
-          <BookOpen className="w-10 h-10 mb-4" style={{ color: "var(--color-primary)" }} />
+          <BookOpen aria-hidden="true" className="w-10 h-10 mb-4" style={{ color: "var(--color-primary)" }} />
           <h1 className="text-2xl font-bold" style={{ color: "var(--color-text-primary)" }}>Create an account</h1>
           <p className="text-sm mt-2 text-center" style={{ color: "var(--color-text-secondary)" }}>
             Join BookHuntBD to start saving your favorite books
@@ -76,10 +85,14 @@ export default function RegisterPage() {
 
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-1.5">
-            <label className="text-sm font-medium" style={{ color: "var(--color-text-primary)" }}>Full Name</label>
+            <label htmlFor="register-name" className="text-sm font-medium" style={{ color: "var(--color-text-primary)" }}>Full Name</label>
             <input
               type="text"
+              autoComplete="name"
               {...form.register("name")}
+              id="register-name"
+              aria-invalid={form.formState.errors.name ? true : undefined}
+              aria-describedby={form.formState.errors.name ? "register-name-error" : undefined}
               className="w-full px-3 py-2 rounded-lg text-sm border focus:ring-2 focus:ring-opacity-50 transition-shadow outline-none"
               style={{
                 backgroundColor: "var(--color-bg-muted)",
@@ -90,15 +103,19 @@ export default function RegisterPage() {
               onBlur={(e) => (e.currentTarget.style.boxShadow = "none")}
             />
             {form.formState.errors.name && (
-              <p className="text-xs" style={{ color: "var(--color-danger)" }}>{form.formState.errors.name.message}</p>
+              <p id="register-name-error" className="text-xs" style={{ color: "var(--color-danger)" }}>{form.formState.errors.name.message}</p>
             )}
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-sm font-medium" style={{ color: "var(--color-text-primary)" }}>Email</label>
+            <label htmlFor="register-email" className="text-sm font-medium" style={{ color: "var(--color-text-primary)" }}>Email</label>
             <input
               type="email"
+              autoComplete="email"
               {...form.register("email")}
+              id="register-email"
+              aria-invalid={form.formState.errors.email ? true : undefined}
+              aria-describedby={form.formState.errors.email ? "register-email-error" : undefined}
               className="w-full px-3 py-2 rounded-lg text-sm border focus:ring-2 focus:ring-opacity-50 transition-shadow outline-none"
               style={{
                 backgroundColor: "var(--color-bg-muted)",
@@ -109,15 +126,19 @@ export default function RegisterPage() {
               onBlur={(e) => (e.currentTarget.style.boxShadow = "none")}
             />
             {form.formState.errors.email && (
-              <p className="text-xs" style={{ color: "var(--color-danger)" }}>{form.formState.errors.email.message}</p>
+              <p id="register-email-error" className="text-xs" style={{ color: "var(--color-danger)" }}>{form.formState.errors.email.message}</p>
             )}
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-sm font-medium" style={{ color: "var(--color-text-primary)" }}>Password</label>
+            <label htmlFor="register-password" className="text-sm font-medium" style={{ color: "var(--color-text-primary)" }}>Password</label>
             <input
               type="password"
+              autoComplete="new-password"
               {...form.register("password")}
+              id="register-password"
+              aria-invalid={form.formState.errors.password ? true : undefined}
+              aria-describedby={form.formState.errors.password ? "register-password-error" : undefined}
               className="w-full px-3 py-2 rounded-lg text-sm border focus:ring-2 focus:ring-opacity-50 transition-shadow outline-none"
               style={{
                 backgroundColor: "var(--color-bg-muted)",
@@ -128,7 +149,7 @@ export default function RegisterPage() {
               onBlur={(e) => (e.currentTarget.style.boxShadow = "none")}
             />
             {form.formState.errors.password && (
-              <p className="text-xs" style={{ color: "var(--color-danger)" }}>{form.formState.errors.password.message}</p>
+              <p id="register-password-error" className="text-xs" style={{ color: "var(--color-danger)" }}>{form.formState.errors.password.message}</p>
             )}
           </div>
 
@@ -138,7 +159,7 @@ export default function RegisterPage() {
             className="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium mt-6 transition-opacity hover:opacity-90 disabled:opacity-50"
             style={{ backgroundColor: "var(--color-primary)", color: "#fff" }}
           >
-            {form.formState.isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
+            {form.formState.isSubmitting && <Loader2 aria-hidden="true" className="w-4 h-4 animate-spin" />}
             Sign Up
           </button>
         </form>
@@ -158,13 +179,14 @@ export default function RegisterPage() {
           type="button"
           onClick={handleGoogleSignIn}
           disabled={isGoogleLoading}
+          aria-busy={isGoogleLoading}
           className="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium border transition-colors hover:bg-white/5 disabled:opacity-50"
           style={{ borderColor: "var(--color-border)", color: "var(--color-text-primary)" }}
         >
           {isGoogleLoading ? (
-            <Loader2 className="w-4 h-4 animate-spin" />
+            <Loader2 aria-hidden="true" className="w-4 h-4 animate-spin" />
           ) : (
-            <svg viewBox="0 0 24 24" className="w-4 h-4" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" /><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" /><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" /><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" /></svg>
+            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" className="w-4 h-4" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" /><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" /><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" /><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" /></svg>
           )}
           Google
         </button>

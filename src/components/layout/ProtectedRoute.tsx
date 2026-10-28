@@ -15,25 +15,19 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
     }
   }, [isPending, session, router]);
 
-  if (isPending) {
+  if (isPending || !session) {
     return (
-      <div className="flex flex-1 items-center justify-center h-64">
+      <div
+        className="flex flex-1 items-center justify-center h-64"
+        role="status"
+        aria-live="polite"
+      >
         <Loader2
           className="w-6 h-6 animate-spin"
+          aria-hidden="true"
           style={{ color: "var(--color-primary)" }}
         />
-      </div>
-    );
-  }
-
-  if (!session) {
-    // Still show spinner while redirect is in-flight
-    return (
-      <div className="flex flex-1 items-center justify-center h-64">
-        <Loader2
-          className="w-6 h-6 animate-spin"
-          style={{ color: "var(--color-primary)" }}
-        />
+        <span className="sr-only">Checking your session…</span>
       </div>
     );
   }

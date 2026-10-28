@@ -19,10 +19,12 @@ export function ErrorMessage({
       <AlertCircle
         className="w-12 h-12"
         style={{ color: "var(--color-danger)" }}
+        aria-hidden="true"
       />
       <p style={{ color: "var(--color-text-secondary)" }}>{message}</p>
       {onRetry && (
         <button
+          type="button"
           onClick={onRetry}
           className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
           style={{
@@ -31,7 +33,7 @@ export function ErrorMessage({
             border: "1px solid var(--color-border)",
           }}
         >
-          <RefreshCw className="w-4 h-4" />
+          <RefreshCw className="w-4 h-4" aria-hidden="true" />
           Try again
         </button>
       )}

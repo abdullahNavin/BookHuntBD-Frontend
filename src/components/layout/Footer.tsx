@@ -1,8 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import { BookOpen } from "lucide-react";
+import { useSession } from "@/lib/auth";
 
 export function Footer() {
   const year = new Date().getFullYear();
+  const { data: session, isPending } = useSession();
 
   return (
     <footer
@@ -27,7 +31,21 @@ export function Footer() {
         </p>
         <div className="flex gap-4 text-xs">
           <Link href="/" className="hover:opacity-80 transition-opacity">Home</Link>
-          <Link href="/auth/login" className="hover:opacity-80 transition-opacity">Login</Link>
+          {!isPending &&
+            (session ? (
+              <>
+                <Link href="/wishlist" className="hover:opacity-80 transition-opacity">
+                  Wishlist
+                </Link>
+                <Link href="/alerts" className="hover:opacity-80 transition-opacity">
+                  Alerts
+                </Link>
+              </>
+            ) : (
+              <Link href="/auth/login" className="hover:opacity-80 transition-opacity">
+                Login
+              </Link>
+            ))}
         </div>
       </div>
     </footer>

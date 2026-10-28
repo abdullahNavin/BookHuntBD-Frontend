@@ -3,11 +3,24 @@
 import Link from "next/link";
 import { useSession, signOut } from "@/lib/auth";
 import { BookOpen, Heart, Bell, LogIn, UserPlus, LogOut, User, ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export function Navbar() {
   const { data: session, isPending } = useSession();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!dropdownOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setDropdownOpen(false);
+        triggerRef.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [dropdownOpen]);
 
   const handleSignOut = async () => {
     await signOut();
@@ -29,7 +42,7 @@ export function Navbar() {
           className="flex items-center gap-2 font-semibold text-lg transition-opacity hover:opacity-80"
           style={{ color: "var(--color-text-primary)" }}
         >
-          <BookOpen className="w-5 h-5" style={{ color: "var(--color-primary)" }} />
+          <BookOpen className="w-5 h-5" aria-hidden="true" style={{ color: "var(--color-primary)" }} />
           <span>BookHuntBD</span>
         </Link>
 
@@ -45,38 +58,43 @@ export function Navbar() {
             <>
               <Link
                 href="/wishlist"
+                aria-label="Wishlist"
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors hover:opacity-80"
                 style={{ color: "var(--color-text-secondary)" }}
               >
-                <Heart className="w-4 h-4" />
+                <Heart className="w-4 h-4" aria-hidden="true" />
                 <span className="hidden sm:inline">Wishlist</span>
               </Link>
               <Link
                 href="/alerts"
+                aria-label="Price alerts"
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors hover:opacity-80"
                 style={{ color: "var(--color-text-secondary)" }}
               >
-                <Bell className="w-4 h-4" />
+                <Bell className="w-4 h-4" aria-hidden="true" />
                 <span className="hidden sm:inline">Alerts</span>
               </Link>
 
               {/* Avatar dropdown */}
               <div className="relative ml-2">
                 <button
+                  type="button"
+                  ref={triggerRef}
                   onClick={() => setDropdownOpen((v) => !v)}
+                  aria-label="Account menu"
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors"
                   style={{
                     backgroundColor: "var(--color-bg-muted)",
                     color: "var(--color-text-secondary)",
                   }}
-                  aria-haspopup="true"
+                  aria-haspopup="menu"
                   aria-expanded={dropdownOpen}
                 >
-                  <User className="w-4 h-4" />
+                  <User className="w-4 h-4" aria-hidden="true" />
                   <span className="hidden sm:inline max-w-[100px] truncate">
                     {session.user?.name ?? session.user?.email ?? "Account"}
                   </span>
-                  <ChevronDown className="w-3 h-3" />
+                  <ChevronDown className="w-3 h-3" aria-hidden="true" />
                 </button>
 
                 {dropdownOpen && (
@@ -91,13 +109,16 @@ export function Navbar() {
                         backgroundColor: "var(--color-bg-card)",
                         borderColor: "var(--color-border)",
                       }}
+                      role="menu"
                     >
                       <button
+                        type="button"
                         onClick={handleSignOut}
+                        role="menuitem"
                         className="flex w-full items-center gap-2 px-4 py-2.5 text-sm transition-colors hover:opacity-80"
                         style={{ color: "var(--color-danger)" }}
                       >
-                        <LogOut className="w-4 h-4" />
+                        <LogOut className="w-4 h-4" aria-hidden="true" />
                         Sign out
                       </button>
                     </div>
@@ -112,7 +133,7 @@ export function Navbar() {
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-opacity hover:opacity-80"
                 style={{ color: "var(--color-text-secondary)" }}
               >
-                <LogIn className="w-4 h-4" />
+                <LogIn className="w-4 h-4" aria-hidden="true" />
                 Login
               </Link>
               <Link
@@ -123,7 +144,7 @@ export function Navbar() {
                   color: "#fff",
                 }}
               >
-                <UserPlus className="w-4 h-4" />
+                <UserPlus className="w-4 h-4" aria-hidden="true" />
                 Register
               </Link>
             </>

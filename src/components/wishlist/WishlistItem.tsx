@@ -65,12 +65,16 @@ export function WishlistItem({ item }: WishlistItemProps) {
           className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-medium transition-opacity hover:opacity-90"
           style={{ backgroundColor: "var(--color-primary)", color: "#fff" }}
         >
-          <ExternalLink className="w-3 h-3" />
+          <ExternalLink className="w-3 h-3" aria-hidden="true" />
           Buy Now
+          <span className="sr-only">(opens in a new tab)</span>
         </a>
         <button
+          type="button"
           onClick={() => remove(item.id)}
           disabled={isPending}
+          aria-busy={isPending}
+          aria-label={`Remove ${item.title} from wishlist`}
           className="flex items-center justify-center gap-1.5 w-10 sm:w-full py-2 px-3 rounded-lg text-xs font-medium border transition-colors hover:opacity-80 disabled:opacity-50"
           style={{
             borderColor: "var(--color-border)",
@@ -78,7 +82,11 @@ export function WishlistItem({ item }: WishlistItemProps) {
             backgroundColor: "color-mix(in srgb, var(--color-danger) 10%, transparent)",
           }}
         >
-          {isPending ? <Loader2 className="w-3 h-3 animate-spin" /> : <Trash2 className="w-3 h-3" />}
+          {isPending ? (
+            <Loader2 className="w-3 h-3 animate-spin" aria-hidden="true" />
+          ) : (
+            <Trash2 className="w-3 h-3" aria-hidden="true" />
+          )}
           <span className="hidden sm:inline">Remove</span>
         </button>
       </div>

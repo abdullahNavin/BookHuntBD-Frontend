@@ -26,10 +26,27 @@ export function SearchBar({
     }
   }, [autoFocus]);
 
+  useEffect(() => {
+    setValue(defaultValue);
+  }, [defaultValue]);
+
   // Keyboard shortcut: "/" to focus
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (e.key === "/" && document.activeElement?.tagName !== "INPUT") {
+      const active = document.activeElement as HTMLElement | null;
+      const isEditable =
+        active?.tagName === "INPUT" ||
+        active?.tagName === "TEXTAREA" ||
+        active?.tagName === "SELECT" ||
+        active?.isContentEditable === true;
+
+      if (
+        e.key === "/" &&
+        !isEditable &&
+        !e.metaKey &&
+        !e.ctrlKey &&
+        !e.altKey
+      ) {
         e.preventDefault();
         inputRef.current?.focus();
       }

@@ -2,7 +2,7 @@
 
 import { useFilters } from "@/hooks/useFilters";
 import { X, SlidersHorizontal } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useId, useState } from "react";
 
 const SORT_OPTIONS = [
   { value: "price_asc", label: "Price: Low → High" },
@@ -25,6 +25,9 @@ const SITES = [
 
 function FilterPanel({ onClose }: { onClose?: () => void }) {
   const { filters, setFilter, clearFilters } = useFilters();
+  const uid = useId();
+  const sortLabelId = `${uid}-sort-label`;
+  const siteLabelId = `${uid}-site-label`;
 
   return (
     <div className="space-y-6">
@@ -33,18 +36,28 @@ function FilterPanel({ onClose }: { onClose?: () => void }) {
           <span className="font-semibold text-sm" style={{ color: "var(--color-text-primary)" }}>
             Filters
           </span>
-          <button onClick={onClose} style={{ color: "var(--color-text-muted)" }}>
-            <X className="w-4 h-4" />
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Close filters"
+            className="p-1 rounded"
+            style={{ color: "var(--color-text-muted)" }}
+          >
+            <X className="w-4 h-4" aria-hidden="true" />
           </button>
         </div>
       )}
 
       {/* Sort */}
       <div>
-        <p className="text-xs font-medium uppercase tracking-wider mb-2" style={{ color: "var(--color-text-muted)" }}>
+        <p
+          id={sortLabelId}
+          className="text-xs font-medium uppercase tracking-wider mb-2"
+          style={{ color: "var(--color-text-muted)" }}
+        >
           Sort by
         </p>
-        <div className="space-y-1">
+        <div className="space-y-1" role="radiogroup" aria-labelledby={sortLabelId}>
           {SORT_OPTIONS.map((opt) => (
             <label
               key={opt.value}
@@ -68,10 +81,14 @@ function FilterPanel({ onClose }: { onClose?: () => void }) {
 
       {/* Site */}
       <div>
-        <p className="text-xs font-medium uppercase tracking-wider mb-2" style={{ color: "var(--color-text-muted)" }}>
+        <p
+          id={siteLabelId}
+          className="text-xs font-medium uppercase tracking-wider mb-2"
+          style={{ color: "var(--color-text-muted)" }}
+        >
           Site
         </p>
-        <div className="space-y-1">
+        <div className="space-y-1" role="group" aria-labelledby={siteLabelId}>
           {SITES.map((site) => {
             const activeSites = filters.site ? filters.site.split(",") : [];
             const checked = activeSites.includes(site.value);
@@ -105,6 +122,7 @@ function FilterPanel({ onClose }: { onClose?: () => void }) {
 
       {/* Clear */}
       <button
+        type="button"
         onClick={clearFilters}
         className="w-full text-xs font-medium py-1.5 rounded-lg transition-opacity hover:opacity-80"
         style={{
@@ -120,11 +138,22 @@ function FilterPanel({ onClose }: { onClose?: () => void }) {
 
 export function SearchFilters() {
   const [sheetOpen, setSheetOpen] = useState(false);
+  const sheetId = useId();
+
+  useEffect(() => {
+    if (!sheetOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setSheetOpen(false);
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [sheetOpen]);
 
   return (
     <>
       {/* Desktop: sticky sidebar */}
       <aside
+        aria-label="Filters"
         className="hidden md:block sticky top-20 self-start min-w-[200px] rounded-xl border p-4"
         style={{
           backgroundColor: "var(--color-bg-card)",
@@ -137,8 +166,12 @@ export function SearchFilters() {
       {/* Mobile: trigger button */}
       <div className="md:hidden mb-3">
         <button
+          type="button"
           id="filters-trigger"
           onClick={() => setSheetOpen(true)}
+          aria-haspopup="dialog"
+          aria-expanded={sheetOpen}
+          aria-controls={sheetId}
           className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium"
           style={{
             backgroundColor: "var(--color-bg-muted)",
@@ -146,7 +179,7 @@ export function SearchFilters() {
             color: "var(--color-text-secondary)",
           }}
         >
-          <SlidersHorizontal className="w-4 h-4" />
+          <SlidersHorizontal className="w-4 h-4" aria-hidden="true" />
           Filters
         </button>
       </div>
@@ -155,10 +188,15 @@ export function SearchFilters() {
       {sheetOpen && (
         <>
           <div
+            aria-hidden="true"
             className="fixed inset-0 z-40 bg-black/60 md:hidden"
             onClick={() => setSheetOpen(false)}
           />
           <div
+            id={sheetId}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Filters"
             className="fixed bottom-0 left-0 right-0 z-50 rounded-t-2xl border-t p-6 md:hidden"
             style={{
               backgroundColor: "var(--color-bg-card)",

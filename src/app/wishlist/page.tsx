@@ -15,7 +15,7 @@ export default function WishlistPage() {
     <ProtectedRoute>
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10">
         <div className="flex items-center gap-3 mb-8">
-          <Heart className="w-8 h-8" style={{ color: "var(--color-danger)" }} fill="currentColor" />
+          <Heart className="w-8 h-8" aria-hidden="true" style={{ color: "var(--color-danger)" }} fill="currentColor" />
           <div>
             <h1 className="text-2xl font-bold" style={{ color: "var(--color-text-primary)" }}>Your Wishlist</h1>
             <p className="text-sm mt-1" style={{ color: "var(--color-text-secondary)" }}>
